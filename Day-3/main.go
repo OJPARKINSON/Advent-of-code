@@ -28,11 +28,17 @@ func main() {
 	var gammaRate string = ""
 	var epsilonRate string = ""
 
-	file, err := os.Open("input")
+	file, err := os.Open("input.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
-	defer file.Close()
+
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
 
 	var lines []string
 

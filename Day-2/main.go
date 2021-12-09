@@ -13,7 +13,7 @@ func main() {
 	var depth int = 0
 	var aim int = 0
 
-	file, err := os.Open("input")
+	file, err := os.Open("input.txt")
 	if err != nil {
 		fmt.Println(err)
 	}
