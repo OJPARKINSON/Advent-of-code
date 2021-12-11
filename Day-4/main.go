@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"strings"
-
-	"github.com/jdrst/adventofgo/util"
 	"github.com/ojparkinson/Advent-of-code/util"
+	"strings"
 )
 
 type BingoNumber struct {

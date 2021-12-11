@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 )
 
 type File []byte
@@ -52,4 +53,18 @@ func ToInt(s string) int {
 		log.Fatal(err)
 	}
 	return i
+}
+
+func ExtractInts(s string) []int {
+	fs := strings.FieldsFunc(s, func(r rune) bool {
+		return !unicode.IsDigit(r) && r != '-'
+	})
+	ints := make([]int, 0, len(fs))
+	for _, w := range fs {
+		i, err := strconv.Atoi(w)
+		if err == nil {
+			ints = append(ints, i)
+		}
+	}
+	return ints
 }
