@@ -3,6 +3,7 @@ package main
 import (
 	_ "embed"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -12,13 +13,6 @@ var input string
 
 func main() {
 	input = strings.TrimRight(input, "\n")
-
-	p1Answer := part1(input)
-
-	fmt.Println("Part 1:", p1Answer)
-}
-
-func part1(input string) int {
 	elves := parseInput(input)
 
 	totals := []int{}
@@ -30,6 +24,28 @@ func part1(input string) int {
 		totals = append(totals, sum)
 	}
 
+	p1Answer := part1(totals)
+	p2Answer := part2(totals)
+
+	fmt.Println("Part 1:", p1Answer)
+	fmt.Println("Part 2:", p2Answer)
+}
+
+func part2(totals []int) int {
+	sort.Ints(totals)
+
+	for i, j := 0, len(totals)-1; i < j; i, j = i+1, j-1 {
+		totals[i], totals[j] = totals[j], totals[i]
+	}
+
+	top3Total := totals[0]
+	top3Total += totals[1]
+	top3Total += totals[2]
+
+	return top3Total
+}
+
+func part1(totals []int) int {
 	biggestNum := totals[0]
 	for _, num := range totals {
 		if num > biggestNum {
