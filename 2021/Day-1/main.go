@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 )
-
+	
 func main() {
 	file, err := os.Open("input.txt")
 
