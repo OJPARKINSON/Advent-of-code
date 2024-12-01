@@ -60,7 +60,7 @@ func part1() {
 	}
 
 	// Output the total distance
-	fmt.Printf("Total distance: %d\n", totalDistance)
+	fmt.Println("Part 1: ", totalDistance)
 }
 
 func part2() {
@@ -75,6 +75,7 @@ func part2() {
 
 	// Read each line
 	scanner := bufio.NewScanner(file)
+	similarity := 0
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		parts := strings.Fields(line)
@@ -96,8 +97,6 @@ func part2() {
 		left = append(left, leftNum)
 		right = append(right, rightNum)
 
-		similarity := 0
-
 		for _, num := range left {
 			var counter int
 
@@ -110,14 +109,12 @@ func part2() {
 			similarity += num * counter
 		}
 
-		fmt.Println("test", similarity)
 	}
 
-	fmt.Println(left)
-	fmt.Println(right)
+	fmt.Println("Part 2: ", similarity)
 }
 
 func main() {
-	// part1()
+	part1()
 	part2()
 }
