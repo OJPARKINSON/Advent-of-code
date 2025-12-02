@@ -56,40 +56,24 @@ func part2(ranges []string) int {
 		start, _ := strconv.Atoi(parts[0])
 		end, _ := strconv.Atoi(parts[1])
 
-		sum := 0
-
 		for i := start; i <= end; i++ {
 			str := strconv.Itoa(i)
 			length := len(str)
 
-			isInvalid := false
 			for patternLen := 1; patternLen <= length/2; patternLen++ {
 				if length%patternLen != 0 {
 					continue
 				}
 
 				pattern := str[:patternLen]
+				repetitions := length / patternLen
 
-				allMatch := true
-				for i := patternLen; i < length; i += patternLen {
-					if str[i:i+patternLen] != pattern {
-						allMatch = false
-						break
-					}
-				}
-
-				if allMatch {
-					isInvalid = true
+				if strings.Repeat(pattern, repetitions) == str {
+					total += i
 					break
 				}
 			}
-
-			if isInvalid {
-				total += i
-			}
 		}
-
-		total += sum
 	}
 
 	return total
