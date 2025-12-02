@@ -8,11 +8,6 @@ import (
 	"strings"
 )
 
-func isInvalidId(number int) bool {
-
-	return false
-}
-
 func main() {
 	fmt.Println("let's go")
 
@@ -67,6 +62,7 @@ func part2(ranges []string) int {
 			str := strconv.Itoa(i)
 			length := len(str)
 
+			isInvalid := false
 			for patternLen := 1; patternLen <= length/2; patternLen++ {
 				if length%patternLen != 0 {
 					continue
@@ -83,11 +79,13 @@ func part2(ranges []string) int {
 				}
 
 				if allMatch {
-
-					fmt.Println(str)
-					fmt.Println(pattern)
-					sum += i
+					isInvalid = true
+					break
 				}
+			}
+
+			if isInvalid {
+				total += i
 			}
 		}
 
