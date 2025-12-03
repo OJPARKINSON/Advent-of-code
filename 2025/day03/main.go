@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/big"
 	"os"
 	"strconv"
 	"strings"
@@ -29,6 +30,14 @@ func main() {
 		batteries = append(batteries, parts...)
 	}
 
+	part1Joltage := part1(batteries)
+	part2Joltage := part2(batteries)
+
+	fmt.Println("part1 ", part1Joltage)
+	fmt.Println("part2 ", part2Joltage)
+}
+
+func part1(batteries []string) int {
 	outputJoltage := 0
 	for _, battery := range batteries {
 		joltageArr := strings.Split(battery, "")
@@ -51,5 +60,29 @@ func main() {
 		outputJoltage += maxJoltage
 	}
 
-	fmt.Println("part1 ", outputJoltage)
+	return outputJoltage
+}
+
+func part2(batteries []string) *big.Int {
+	total := big.NewInt(0)
+
+	for _, battery := range batteries {
+		toRemove := len(battery) - 12
+		stack := []byte{}
+
+		for i := 0; i < len(battery); i++ {
+			for len(stack) > 0 && toRemove > 0 && battery[i] > stack[len(stack)-1] {
+				stack = stack[:len(stack)-1]
+				toRemove--
+			}
+			stack = append(stack, battery[i])
+		}
+		largest := string(stack[:12])
+
+		num := new(big.Int)
+		num.SetString(largest, 10)
+		total.Add(total, num)
+	}
+
+	return total
 }
