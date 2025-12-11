@@ -9,8 +9,10 @@ import (
 )
 
 func main() {
-	input := readInput()
-	fmt.Println(part1(input))
+	input1 := readInput()
+	fmt.Println(part1(input1))
+	input2 := readInput()
+	fmt.Println(part2(input2))
 }
 
 func part1(input [][]string) int {
@@ -53,45 +55,50 @@ func part1(input [][]string) int {
 
 	return splitCount
 }
-func part2(input [][]string) int {
-	var beams []int
 
+func part2(input [][]string) int {
+	beams := make(map[int]int)
+
+	startRow := 0
 	for i, row := range input {
 		if idx := slices.Index(row, "S"); idx != -1 {
-			beams = append(beams, idx)
-			input[i][idx] = "|"
+			beams[idx] = 1
+			startRow = i
 			break
 		}
 	}
 
-	splitCount := 0
-	for row := 1; row < len(input); row++ {
-		var newBeams []int
+	for row := startRow + 1; row < len(input); row++ {
+		newBeams := make(map[int]int)
 
-		for _, col := range beams {
+		for col, count := range beams {
 			cell := input[row][col]
 
 			if cell == "." {
-				input[row][col] = "|"
-				newBeams = append(newBeams, col)
+				newBeams[col] += count
 			} else if cell == "^" {
-				splitCount++
 				if col-1 >= 0 {
-					input[row][col-1] = "|"
-					newBeams = append(newBeams, col-1)
+
+					newBeams[col-1] += count
 				}
+
 				if col+1 < len(input[row]) {
-					input[row][col+1] = "|"
-					newBeams = append(newBeams, col+1)
+					newBeams[col+1] += count
 				}
 			}
+			fmt.Println(newBeams)
 		}
-
-		slices.Sort(newBeams)
-		beams = slices.Compact(newBeams)
+		beams = newBeams
 	}
 
-	return splitCount
+	total := 0
+
+	for _, count := range beams {
+		fmt.Println(count)
+		total += count
+	}
+
+	return total
 }
 
 func readInput() [][]string {
